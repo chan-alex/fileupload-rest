@@ -19,6 +19,17 @@ $container['logger'] = function($c) {
 };
 
 
+$container['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        return $c['response']
+            ->withStatus(404);
+            #->withHeader('Content-Type', 'text/html')
+            #->write('Page not found lah');
+    };
+};
+
+
+
 $app->post('/1/files/upload/{filename}', function (Request $request, Response $response,$args) {
     #$this->logger->addInfo("upload");  
 
