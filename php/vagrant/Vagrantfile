@@ -68,4 +68,35 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get -y install nginx
+    sudo apt-get -y install php5-fpm php5-cli php5-curl php5-gd php5-json php5-mcrypt php5-mysqlnd
+    sudo apt-get -y install git
+
+    curl -sS https://getcomposer.org/installer | php
+    sudo mv composer.phar /usr/local/bin/composer
+
+    sudo groupadd deploy
+    sudo useradd deploy -g deploy -m
+
+    cd /home/deploy
+    sudo git clone https://github.com/chan-alex/fileupload-rest
+    cd /home/deploy/fileupload-rest/php/src
+    sudo composer install
+
+    sudo mkdir /home/deploy/fileupload-rest/php/src/public/uploaded_files/
+    sudo mkdir /home/deploy/fileupload-rest/php/logs/
+    sudo chown -R deploy:deploy /home/deploy/fileupload-rest/
+
+    sudo cp /home/deploy/fileupload-rest/php/vagrant/fileupload-fpm.conf /etc/php5/fpm/pool.d/
+    sudo service php5-fpm restart
+
+
+    sudo cp /home/deploy/fileupload-rest/php/vagrant/fileupload-nginx.conf /etc/nginx/sites-available/
+    sudo ln -s /etc/nginx/sites-available/fileupload-nginx.conf /etc/nginx/sites-enabled/fileupload-nginx.conf
+
+    sudo service nginx restart
+
+   SHELL
 end
