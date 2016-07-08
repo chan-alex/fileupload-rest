@@ -95,5 +95,6 @@ $app->delete('/1/files/{filename}', function (Request $request, Response $respon
 });
 
 
-
 $app->run();
+
+?>
