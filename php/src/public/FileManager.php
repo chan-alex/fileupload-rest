@@ -4,6 +4,7 @@ class FileManager {
 
 
    private $files_location = "./uploaded_files";
+   private $backing_store= "./backing_store";
    private $logger;
 
    function __construct($logger) {
@@ -18,10 +19,9 @@ class FileManager {
       $file_md5  = md5($file_content);
 
 
-      $path = "$this->files_location/$file_size-$file_md5";
+      $path = "$this->backing_store/$file_size-$file_md5";
 
       if (file_exists($path) === false) {
-
 
         if (file_exists("$this->files_location/$filename")) {
            $this->delete_file($filename);
@@ -66,7 +66,7 @@ class FileManager {
        # delete the hard link
        unlink($link_path);
 
-       $content_path = "$this->files_location/$filesize-$md5";
+       $content_path = "$this->backing_store/$filesize-$md5";
        $content_stat = stat($content_path);
        $nlink = $content_stat['nlink'];
 
