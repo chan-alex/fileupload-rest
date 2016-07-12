@@ -29,7 +29,7 @@ class FileManager {
 
         $fh = fopen($path,'w');
         if ($fh === false) {
-           return array('status' => 'fail', 'info'=>'Not able to write to file.' );
+           return array('status' => 'error', 'info'=>'Not able to write to file.' );
         }
 
         fwrite($fh,$file_content);
@@ -55,7 +55,7 @@ class FileManager {
        $link_path = "$this->files_location/$filename";
 
        if (file_exists($link_path) === false) {
-         return array('status' => 'fail', 'info'=>'file does not exist.' );
+         return array('status' => 'error', 'info'=>'file does not exist.' );
        }
 
      
