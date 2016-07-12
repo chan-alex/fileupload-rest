@@ -30,15 +30,50 @@ $container['notFoundHandler'] = function ($c) {
 
 
 
+
+function validate_filename ($input) {
+
+  # this function does some simple validation for the filenames.
+
+  $REGEX = "/^[A-Za-z0-9_-]*$/";
+  $MAX_LENGTH = 50;
+
+  if ((strlen($input) > $MAX_LENGTH) or (preg_match($REGEX, $input) === false)) {
+      return false;
+  }    
+
+  return true;
+}
+
+
+
 $app->post('/1/files/upload/{filename}', function (Request $request, Response $response,$args) {
-    #$this->logger->addInfo("upload");  
 
     $filename = $args['filename'];
+
+    if (validate_filename($filename) === false) {
+        $data = array('status' => 'error',  'info' => 'Invalid filename.' );
+        return $response->withJson($data,500); 
+    }
+
     $this->logger->Info("upload operation initiated for filename: $filename " );  
 
-    $file_content = file_get_contents('php://input',NULL,NULL,0,2097152);  # limit to 2MB.
-    $file_manager = new FileManager($this->logger);
+    $MAX_FILESIZE = 2097152;
+    $file_content = file_get_contents('php://input', NULL, NULL, 0, $MAX_FILESIZE+10);
 
+    if (($file_content === false) or (strlen($file_content) <= 0))  {
+        $data = array('status' => 'error', 'info' =>  "Unknown error while processing uploading." );
+        return $response->withJson($data,500); 
+    }
+
+    # Test for file size.
+    if (strlen($file_content) > $MAX_FILESIZE) {
+        $data = array('status' => 'error', 'info' => "File is too large. Current limit is $MAX_FILESIZE bytes." );
+        return $response->withJson($data,500); 
+    }
+
+    # Save file to disk.
+    $file_manager = new FileManager($this->logger);
     $status = $file_manager->save_file($filename, $file_content);
     if ($status['status'] != 'success') {
         $this->logger->Info("upload operation failed for filename: $filename " );  
@@ -54,6 +89,12 @@ $app->post('/1/files/upload/{filename}', function (Request $request, Response $r
 $app->get('/1/files/retrieve/{filename}', function (Request $request, Response $response,$args) {
 
     $filename = $args['filename'];
+
+    if (validate_filename($filename) === false) {
+        $data = array('status' => 'error',  'info' => 'Invalid filename.' );
+        return $response->withJson($data,500); 
+    }
+    
     $this->logger->Info("retrieve operation initiated for filename: $filename " );  
 
     $file_manager = new FileManager($this->logger);
@@ -61,7 +102,7 @@ $app->get('/1/files/retrieve/{filename}', function (Request $request, Response $
     $file_content = $file_manager->retrieve_file("$filename");
     if ($file_content === false) {
         $this->logger->Info("retrieve operation failed for filename: $filename " );  
-        $data = array('status' => 'Error.File could not be found or opened for reading.' );
+        $data = array('status' => 'error', 'info' => 'File could not be found or opened for reading.' );
         return $response->withJson($data,500); 
     }
 
@@ -79,6 +120,12 @@ $app->get('/1/files/retrieve/{filename}', function (Request $request, Response $
 $app->delete('/1/files/{filename}', function (Request $request, Response $response,$args) {
 
     $filename = $args['filename'];
+
+    if (validate_filename($filename) === false) {
+        $data = array('status' => 'error', 'info' => 'Invalid filename.' );
+        return $response->withJson($data,500); 
+    }
+
     $this->logger->Info("delete operation initiated for filename: $filename " );  
 
     $file_manager = new FileManager($this->logger);
