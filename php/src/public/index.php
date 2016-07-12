@@ -56,7 +56,7 @@ $app->get('/1/files/retrieve/{filename}', function (Request $request, Response $
     $filename = $args['filename'];
     $this->logger->Info("retrieve operation initiated for filename: $filename " );  
 
-    $file_manager = new FileManager;
+    $file_manager = new FileManager($this->logger);
     
     $file_content = $file_manager->retrieve_file("$filename");
     if ($file_content === false) {
