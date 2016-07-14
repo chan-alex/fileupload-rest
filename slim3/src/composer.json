@@ -1,6 +1,8 @@
 {
     "require": {
         "slim/slim": "^3.4",
-        "monolog/monolog": "^1.20"
+        "monolog/monolog": "^1.20",
+        "phpunit/phpunit": "5.4.*",
+        "guzzlehttp/guzzle": "~6.0"
     }
 }
