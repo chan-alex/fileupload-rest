@@ -23,8 +23,6 @@ $container['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {
         return $c['response']
             ->withStatus(404);
-            #->withHeader('Content-Type', 'text/html')
-            #->write('Page not found lah');
     };
 };
 
@@ -33,7 +31,7 @@ $container['notFoundHandler'] = function ($c) {
 
 function validate_filename ($input) {
 
-  # this function does some simple validation for the filenames.
+  // this function does some simple validation for the filenames.
 
   $REGEX = "/^[A-Za-z0-9_-]*$/";
   $MAX_LENGTH = 50;
@@ -66,13 +64,13 @@ $app->post('/1/files/upload/{filename}', function (Request $request, Response $r
         return $response->withJson($data,500); 
     }
 
-    # Test for file size.
+    // Test for file size.
     if (strlen($file_content) > $MAX_FILESIZE) {
         $data = array('status' => 'error', 'info' => "File is too large. Current limit is $MAX_FILESIZE bytes." );
         return $response->withJson($data,500); 
     }
 
-    # Save file to disk.
+    // Save file to disk.
     $file_manager = new FileManager($this->logger);
     $status = $file_manager->save_file($filename, $file_content);
     if ($status['status'] != 'success') {
@@ -144,4 +142,4 @@ $app->delete('/1/files/{filename}', function (Request $request, Response $respon
 
 $app->run();
 
-?>
+
