@@ -1,0 +1,5 @@
+
+
+Example command line usage:
+
+     ../src/vendor/phpunit/phpunit/phpunit --bootstrap ../src/vendor/autoload.php   <unit test php file> 
