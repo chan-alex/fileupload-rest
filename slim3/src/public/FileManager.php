@@ -63,14 +63,14 @@ class FileManager {
        $filesize = $link_stat['size'];
        $md5 = md5(file_get_contents($link_path));
 
-       # delete the hard link
+       // delete the hard link
        unlink($link_path);
 
        $content_path = "$this->backing_store/$filesize-$md5";
        $content_stat = stat($content_path);
        $nlink = $content_stat['nlink'];
 
-      # remove the last file, if there are no more hardlinks pointing to it.
+      // remove the last file, if there are no more hardlinks pointing to it.
       if ($nlink == 1) {
          unlink($content_path);
       }
@@ -82,4 +82,3 @@ class FileManager {
 }
 
 
-?>
