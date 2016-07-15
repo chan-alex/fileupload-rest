@@ -69,9 +69,15 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
   config.vm.provision "shell", inline: <<-SHELL
+
+    apt-get install -y language-pack-en-base
+    LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
+
     apt-get update
     apt-get -y install nginx
-    apt-get -y install php5-fpm php5-cli php5-curl php5-gd php5-json php5-mcrypt php5-mysqlnd
+    apt-get -y install php7.0-fpm php7.0-cli php7.0-curl php7.0-gd php7.0-json php7.0-mcrypt php7.0-mysqlnd
+    apt-get install -y php-xml
+    apt-get install -y zip unzip
     apt-get -y install git
 
     curl -sS https://getcomposer.org/installer | php
@@ -82,19 +88,19 @@ Vagrant.configure("2") do |config|
 
     cd /home/deploy
     git clone https://github.com/chan-alex/fileupload-rest
-    cd /home/deploy/fileupload-rest/php/src
+    cd /home/deploy/fileupload-rest/slim3/src
     composer install
 
-    mkdir /home/deploy/fileupload-rest/php/src/public/uploaded_files/
-    mkdir /home/deploy/fileupload-rest/php/src/public/backing_store/
-    mkdir /home/deploy/fileupload-rest/php/logs/
+    mkdir /home/deploy/fileupload-rest/slim3/src/public/uploaded_files/
+    mkdir /home/deploy/fileupload-rest/slim3/src/public/backing_store/
+    mkdir /home/deploy/fileupload-rest/slim3/logs/
     chown -R deploy:deploy /home/deploy/fileupload-rest/
 
-    cp /home/deploy/fileupload-rest/php/vagrant/fileupload-fpm.conf /etc/php5/fpm/pool.d/
-    service php5-fpm restart
+    cp /home/deploy/fileupload-rest/slim3/vagrant/fileupload-fpm.conf  /etc/php/7.0/fpm/pool.d/
+    service php7.0-fpm restart
 
 
-    cp /home/deploy/fileupload-rest/php/vagrant/fileupload-nginx.conf /etc/nginx/sites-available/
+    cp /home/deploy/fileupload-rest/slim3/vagrant/fileupload-nginx.conf /etc/nginx/sites-available/
     ln -s /etc/nginx/sites-available/fileupload-nginx.conf /etc/nginx/sites-enabled/fileupload-nginx.conf
 
     service nginx restart
