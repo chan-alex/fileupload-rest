@@ -31,16 +31,16 @@ $container['notFoundHandler'] = function ($c) {
 
 function validate_filename ($input) {
 
-  // this function does some simple validation for the filenames.
+    // this function does some simple validation for the filenames.
 
-  $REGEX = "/^[a-zA-Z0-9\._\-]+$/";
-  $MAX_LENGTH = 50;
+    $REGEX = "/^[a-zA-Z0-9\._\-]+$/";
+    $MAX_LENGTH = 50;
 
-  if ((strlen($input) > $MAX_LENGTH) or (preg_match($REGEX, $input) == 0)) {
-      return false;
-  }    
+    if ((strlen($input) > $MAX_LENGTH) or (preg_match($REGEX, $input) == 0)) {
+        return false;
+    }    
 
-  return true;
+    return true;
 }
 
 
