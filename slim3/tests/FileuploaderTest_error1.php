@@ -51,10 +51,11 @@ class FileuploaderTest extends TestCase {
             // no action needed.            
 
         }
-       
+      
+        // Now do the GET.
         try { 
         
-            $request = new Request('GET', 'http://localhost:8080/1/files/retrieve/something-else');
+            $request = new Request('GET', 'http://localhost:8080/1/files/something-else');
             $response = $client->send($request, ['timeout' => 2]);
         
         } catch (GuzzleHttp\Exception\ServerException $e) {

@@ -45,7 +45,7 @@ function validate_filename ($input) {
 
 
 
-$app->post('/1/files/upload/{filename}', function (Request $request, Response $response,$args) {
+$app->post('/1/files/{filename}', function (Request $request, Response $response,$args) {
 
     $filename = $args['filename'];
 
@@ -84,7 +84,7 @@ $app->post('/1/files/upload/{filename}', function (Request $request, Response $r
 
 
 
-$app->get('/1/files/retrieve/{filename}', function (Request $request, Response $response,$args) {
+$app->get('/1/files/{filename}', function (Request $request, Response $response,$args) {
 
     $filename = $args['filename'];
 

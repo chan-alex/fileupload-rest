@@ -40,7 +40,7 @@ class FileuploaderTest extends TestCase {
 
         for($x = 0; $x < count($this->testnames); $x++) {
             try {
-                $request = new Request('POST', "http://localhost:8080/1/files/upload/".$this->testnames[$x], array() , "something");
+                $request = new Request('POST', "http://localhost:8080/1/files/".$this->testnames[$x], array() , "something");
                 $response = $client->send($request, ['timeout' => 2]);
             
             } catch (GuzzleHttp\Exception\ServerException $e) {
@@ -62,7 +62,7 @@ class FileuploaderTest extends TestCase {
 
         for($x = 0; $x < count($this->testnames); $x++) {
             try {
-                $request = new Request('GET', "http://localhost:8080/1/files/retrieve/".$this->testnames[$x]);
+                $request = new Request('GET', "http://localhost:8080/1/files/".$this->testnames[$x]);
                 $response = $client->send($request, ['timeout' => 2]);
             
             } catch (GuzzleHttp\Exception\ServerException  $e) {

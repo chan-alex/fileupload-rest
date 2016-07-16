@@ -17,7 +17,7 @@ class FileuploaderTest extends TestCase {
         // this is expected to be a successful upload.
         $client = new Client(); 
 
-        $request = new Request('POST', 'http://localhost:8080/1/files/upload/something', array() , "something");
+        $request = new Request('POST', 'http://localhost:8080/1/files/something', array() , "something");
         $response = $client->send($request, ['timeout' => 2]);
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -29,7 +29,7 @@ class FileuploaderTest extends TestCase {
         // Simulates this command:
         //    curl localhost:8080/1/files/retreieve/something 
         // this is expected to be a successful retrieve.
-        $request = new Request('GET', 'http://localhost:8080/1/files/retrieve/something');
+        $request = new Request('GET', 'http://localhost:8080/1/files/something');
         $response = $client->send($request, ['timeout' => 2]);
 
         $this->assertEquals(200, $response->getStatusCode());

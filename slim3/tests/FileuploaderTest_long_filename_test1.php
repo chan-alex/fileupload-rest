@@ -32,7 +32,7 @@ class FileuploaderTest extends TestCase {
 
         try {
 
-            $request = new Request('POST', "http://localhost:8080/1/files/upload/".$this->testname, array() , "something");
+            $request = new Request('POST', "http://localhost:8080/1/files/".$this->testname, array() , "something");
             $response = $client->send($request, ['timeout' => 2]);
         
         } catch (GuzzleHttp\Exception\ServerException $e) {
@@ -53,7 +53,7 @@ class FileuploaderTest extends TestCase {
 
         try {
 
-            $request = new Request('GET', "http://localhost:8080/1/files/retrieve/". $this->testname );
+            $request = new Request('GET', "http://localhost:8080/1/files/". $this->testname );
             $response = $client->send($request, ['timeout' => 2]);
         
         } catch (GuzzleHttp\Exception\ServerException $e) {
