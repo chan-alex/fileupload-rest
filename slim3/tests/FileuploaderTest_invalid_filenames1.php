@@ -76,4 +76,26 @@ class FileuploaderTest extends TestCase {
             $this->fail("This test should not reach here. Current test filename: ". $this->testnames[$x] );
         }    
     }
+    
+    public function test_invalid_filename_delete() {
+        // This test simulate retrieveing a file with an invalid filename. Should fail.
+
+        $client = new Client(); 
+
+        for($x = 0; $x < count($this->testnames); $x++) {
+            try {
+                $request = new Request('DELETE', "http://localhost:8080/1/files/".$this->testnames[$x]);
+                $response = $client->send($request, ['timeout' => 2]);
+            
+            } catch (GuzzleHttp\Exception\ServerException  $e) {
+
+                $response = $e->getResponse();
+                $this->assertEquals(500, $response->getStatusCode() );
+                $this->common_asserts($response);
+                continue;
+            }
+
+            $this->fail("This test should not reach here. Current test filename: ". $this->testnames[$x] );
+        }    
+    }
 }
