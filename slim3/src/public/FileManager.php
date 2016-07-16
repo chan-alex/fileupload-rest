@@ -22,18 +22,18 @@ class FileManager {
 
          if (file_exists($path) === false) {
 
-         if (file_exists("$this->files_location/$filename")) {
-              $this->delete_file($filename);
-         }
+            if (file_exists("$this->files_location/$filename")) {
+                  $this->delete_file($filename);
+            }
 
-         $fh = fopen($path,'w');
-         if ($fh === false) {
-             return array('status' => 'error', 'info'=>'Not able to write to file.' );
-         }
+            $fh = fopen($path,'w');
+            if ($fh === false) {
+                 return array('status' => 'error', 'info'=>'Not able to write to file.' );
+            }
 
-         fwrite($fh,$file_content);
-         fflush($fh);
-         fclose($fh);
+            fwrite($fh,$file_content);
+            fflush($fh);
+            fclose($fh);
 
          }
          link($path, "$this->files_location/$filename");
@@ -45,6 +45,9 @@ class FileManager {
      function retrieve_file($filename) {
 
          $path = "$this->files_location/$filename";
+         
+         if (file_exists($path) === false) { return false; }
+         
          return file_get_contents($path);
 
      }
