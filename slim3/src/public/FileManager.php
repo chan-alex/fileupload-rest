@@ -18,15 +18,16 @@ class FileManager {
          $file_size = strlen($file_content);
          $file_md5  = md5($file_content);
 
-         $path = "$this->backing_store/$file_size-$file_md5";
+         $link_path = "$this->files_location/$filename";
+         $backing_path = "$this->backing_store/$file_size-$file_md5";
 
-         if (file_exists($path) === false) {
+         if (file_exists($backing_path) === false) {
 
-            if (file_exists("$this->files_location/$filename")) {
+            if (file_exists($link_path)) {
                   $this->delete_file($filename);
             }
 
-            $fh = fopen($path,'w');
+            $fh = fopen($backing_path,'w');
             if ($fh === false) {
                  return array('status' => 'error', 'info'=>'Not able to write to file.' );
             }
@@ -36,8 +37,8 @@ class FileManager {
             fclose($fh);
 
          }
-         link($path, "$this->files_location/$filename");
-         $this->logger->Info("$this->files_location/$filename was saved." );
+         link( $backing_path,  $link_path);
+         $this->logger->Info("$link_path was saved." );
          return array('status' => 'success', 'info'=>'File uploaded successfully.' );
      }
 
