@@ -1,0 +1,31 @@
+
+
+curl -X POST -H "Content-Type: text/plain" -T test/test.png http://127.0.0.1:4000/upload/hello.txt
+
+curl -X POST -H "Content-Type: text/plain" -T /etc/hosts http://127.0.0.1:4000/upload/hello.txt
+
+
+curl -X POST -T test.png  http://127.0.0.1:4000/1/files/upload/hello.png
+---
+
+
+
+curl -s localhost:8080/1/files/upload/something --data something
+curl -s localhost:8080/1/files/upload/9-437b930db84b8079c2dd804a71936b5f --data something-else
+curl -s localhost:8080/1/files/upload/copy-of-something --data something 
+curl localhost:8080/1/files/retrieve/copy-of-something
+curl localhost:8080/1/files/retrieve/9-437b930db84b8079c2dd804a71936b5f
+
+curl -X DELETE  http://127.0.0.1:8080/1/files/something
+curl -X DELETE  http://127.0.0.1:8080/1/files/copy-of-something 
+curl -X DELETE  http://127.0.0.1:8080/1/files/9-437b930db84b8079c2dd804a71936b5f 
+
+ls -li ../src/public/backing_store/ ../src/public/uploaded_files 
+
+rm ../src/public/backing_store/*
+rm ../src/public/uploaded_files/*
+
+----
+
+# 5MB file.
+curl -X POST -T   ~/Downloads/JavaScript_Frameworks_for_Modern_Web_Dev_u.pdf   http://127.0.0.1:8080/1/files/upload/book.pdf
